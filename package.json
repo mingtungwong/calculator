@@ -1,0 +1,11 @@
+{
+  "name": "fgo-ascension-calculator",
+  "version": "1.0.0",
+  "description": "Calculates ascension materials required for servants in Fate Grand Order.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ming",
+  "license": "ISC"
+}
