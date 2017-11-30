@@ -5,12 +5,10 @@ const db = require('../db');
 const port = 1337;
 
 app.use(express.static("public"));
+app.use(require('./routes'));
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
-    db.query('select * from ascension_costs', (err, res) => {
-        console.log(res);
-    })
 })
 
 app.get('/', (req, res, err) => {
