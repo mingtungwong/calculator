@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const db = require('../db');
+const cors = require('cors');
 
 const port = 1337;
 
+app.use(cors());
 app.use(express.static("public"));
 app.use(require('./routes'));
 
