@@ -16,3 +16,5 @@ app.listen(port, () => {
 app.get('/', (req, res, err) => {
     res.send("Hello");
 })
+
+app.use((err, req, res, next) => console.error(err));

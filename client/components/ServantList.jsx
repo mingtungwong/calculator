@@ -16,6 +16,14 @@ export default class ServantList extends React.Component {
         .then(servants => this.setState({servants}));
     }
 
+    pad(num) {
+        return '000'.slice(num.toString().length) + num;
+    }
+
+    getClassImageLocation(servantClass) {
+        return `/public/assets/classes/${servantClass.toLowerCase()}.png`;
+    }
+
     render() {
         return (
             <div>
@@ -30,7 +38,14 @@ export default class ServantList extends React.Component {
                             this.state.servants.map(servant => {
                                 return (
                                     <div key={servant.id}>
-                                        <span>{servant.name}</span><span>{servant.class}</span><span>{servant.stars}</span>
+                                        <img src={`public/assets/servants/${this.pad(servant.id)}.png`}/>
+                                        <span>{servant.name}</span><img src={this.getClassImageLocation(servant.class)}/>
+                                        <span className="glyphicon glyphicon-star"></span>
+                                        <span>{new Array(servant.stars - 1).fill(0).map((x, idx) => {
+                                            return (
+                                                <span key={idx} className="glyphicon glyphicon-star"></span>
+                                            )
+                                        })}</span>
                                     </div>
                                 )
                             })
