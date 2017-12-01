@@ -34,6 +34,7 @@ export default class ServantList extends React.Component {
                     </p>
                     :
                     <div>
+                        <h3>Servant List</h3>
                         <table>
                             <tbody>
                                 {
