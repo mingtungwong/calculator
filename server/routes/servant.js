@@ -5,6 +5,7 @@ router.get('/servant', (req, res, next) => {
     const query = `
         SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
         FROM servant INNER JOIN servant_class ON servant.class_id = servant_class.id
+        ORDER BY servant.id ASC
     `;
     db.query(query, (error, result) => {
         res.send(result.rows);
@@ -18,7 +19,8 @@ router.get('/servant/cost/:servant_id', (req, res, next) => {
         WHERE servant.id = ${req.params.servant_id}
     `;
     db.query(query, (error, result) => {
-        res.send(result.rows);
+        if(error) throw error;
+        else res.send(result.rows);
     });
 })
 

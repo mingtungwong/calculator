@@ -34,22 +34,27 @@ export default class ServantList extends React.Component {
                     </p>
                     :
                     <div>
-                        {
-                            this.state.servants.map(servant => {
-                                return (
-                                    <div key={servant.id}>
-                                        <img src={`public/assets/servants/${this.pad(servant.id)}.png`}/>
-                                        <span>{servant.name}</span><img src={this.getClassImageLocation(servant.class)}/>
-                                        <span className="glyphicon glyphicon-star"></span>
-                                        <span>{new Array(servant.stars - 1).fill(0).map((x, idx) => {
-                                            return (
-                                                <span key={idx} className="glyphicon glyphicon-star"></span>
-                                            )
-                                        })}</span>
-                                    </div>
-                                )
-                            })
-                        }
+                        <table>
+                            <tbody>
+                                {
+                                    this.state.servants.map(servant => {
+                                        return (
+                                            <tr key={servant.id}>
+                                                <td className="td-id">{servant.id}</td>
+                                                <td className="td-servant-img"><img className="servant-img" src={`public/assets/servants/${this.pad(servant.id)}.png`}/></td>
+                                                <td className="td-servant-name">{servant.name}</td>
+                                                <td className="td-class-logo"><img className="class-logo" src={this.getClassImageLocation(servant.class)}/></td>
+                                                <td className="td-stars">{new Array(servant.stars).fill(0).map((x, idx) => {
+                                                    return (
+                                                        <span key={idx} className="glyphicon glyphicon-star"></span>
+                                                    )
+                                                })}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 }
             </div>
