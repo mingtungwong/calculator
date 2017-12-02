@@ -1,11 +1,12 @@
 import React from 'react';
-
+import { Link } from 'react-router';
+import NavigationBar from './NavigationBar.jsx';
 
 export default class Header extends React.Component {
     render() {
         return (
             <div className="header">
-                <img src="/public/assets/logos/fgo_logo.png" height="90px" width="160px"/>
+                <NavigationBar />
             </div>
         )
     }

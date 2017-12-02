@@ -19,7 +19,8 @@ router.get('/servant/cost/:servant_id', (req, res, next) => {
         WHERE servant.id = ${req.params.servant_id}
     `;
     db.query(query, (error, result) => {
-        if(error) throw error;
+        if(error) next(error);
+        else if(!result) next(new Error("No results"));
         else res.send(result.rows);
     });
 })
