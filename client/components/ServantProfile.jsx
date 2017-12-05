@@ -54,20 +54,20 @@ export default class ServantProfile extends React.Component {
                                     {
                                         
                                         servant.costs.map((level, idx) => {
-                                            console.log('in level', level);
                                             return (
-
                                                 level ? 
                                                 <tr key={idx}>
                                                     <td>{idx}</td>
                                                     {
                                                         level.map((item, index) => {
-                                                            console.log('in item', item);
                                                             return (
                                                                 item ?
                                                                 item !== ' ' ?
-                                                                <td key={index}><img height="64px" width="64px" src={`/public/assets/items/${'000'.slice(item.id.toString().length) + item.id}.png`}/></td>
-                                                                : <td></td>
+                                                                <td key={index} className="mat-rows">
+                                                                    <img height="64px" width="64px" src={`/public/assets/items/${'000'.slice(item.id.toString().length) + item.id}.png`}/>
+                                                                    <p className="mat-quantity">{`x${item.quantity}`}</p>
+                                                                </td>
+                                                                : <td key={index}></td>
                                                                 : null
                                                             );
                                                         })
