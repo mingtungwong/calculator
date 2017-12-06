@@ -11,24 +11,6 @@ router.get('/servant/:id', (req, res, next) => {
     utils.handleQuery(query, res, next);
 });
 
-router.get('/servant', (req, res, next) => {
-    const query = `
-        SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
-        FROM servant INNER JOIN servant_class ON servant.class_id = servant_class.id
-        ORDER BY servant.id ASC
-    `;
-    utils.handleQuery(query, res, next);
-});
-
-router.get('/servant/basic', (req, res, next) => {
-    const query = `
-        SELECT id, name
-        FROM servant
-        ORDER BY name ASC
-    `;
-    utils.handleQuery(query, res, next);
-})
-
 router.get('/servant/cost/:servant_id', (req, res, next) => {
     const servantQuery = `
         SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
@@ -69,6 +51,24 @@ router.get('/servant/cost/:servant_id', (req, res, next) => {
             });
         }
     });
+});
+
+router.get('/servant/all/basic', (req, res, next) => {
+    const query = `
+        SELECT id, name
+        FROM servant
+        ORDER BY name ASC
+    `;
+    utils.handleQuery(query, res, next);
+})
+
+router.get('/servant', (req, res, next) => {
+    const query = `
+        SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
+        FROM servant INNER JOIN servant_class ON servant.class_id = servant_class.id
+        ORDER BY servant.id ASC
+    `;
+    utils.handleQuery(query, res, next);
 });
 
 router.post('/servant/cost', (req, res, next) => {
