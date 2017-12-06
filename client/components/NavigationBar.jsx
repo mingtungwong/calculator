@@ -21,6 +21,9 @@ export default class NavigationBar extends React.Component {
                     <LinkContainer to="/servants">
                         <NavItem>Servants</NavItem>
                     </LinkContainer>
+                    <LinkContainer to="/edit">
+                        <NavItem>Edit</NavItem>
+                    </LinkContainer>
                 </Nav>
             </Navbar>
         )

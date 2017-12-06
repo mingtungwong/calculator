@@ -67,7 +67,7 @@ export default class ServantProfile extends React.Component {
                                                                     <img height="64px" width="64px" src={`/public/assets/items/${'000'.slice(item.id.toString().length) + item.id}.png`}/>
                                                                     <p className="mat-quantity">{`x${item.quantity}`}</p>
                                                                 </td>
-                                                                : <td key={index}></td>
+                                                                : <td key={index} className="mat-rows"></td>
                                                                 : null
                                                             );
                                                         })
