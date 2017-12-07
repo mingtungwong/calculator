@@ -72,15 +72,17 @@ router.get('/servant', (req, res, next) => {
 });
 
 router.post('/servant/cost', (req, res, next) => {
+    const servant = req.body.servant;
+    const costs = req.body.costs;
+    const queryText = `INSERT into ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
+    const values = costs.map(cost => `(${servant}, ${cost.ascLvl}, ${cost.itemId}, ${cost.quantity})`);
+    const fullQuery = queryText + values.join(',');
+
     (async () => {
         const client = await db.connect();
         try {
             await client.query('BEGIN');
-            const queryText = `
-                INSERT into ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES
-                (50, 1, 1, 1)
-            `
-            await client.query(queryText);
+            await client.query(fullQuery);
             await client.query('COMMIT');
         } catch(e) {
             await client.query('ROLLBACK');
