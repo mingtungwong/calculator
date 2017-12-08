@@ -40,10 +40,10 @@ export default class EditAscensions extends React.Component {
         this.setState({servant: +event.target.value});
     }
 
-    addCost() {
+    addCost(ascLevel) {
         const cost = {};
         cost.id = this.state.costId;
-        cost.ascLvl = 1;
+        cost.ascLvl = ascLevel;
         cost.itemId = 1;
         cost.quantity = null;
         const newCosts = this.state.costs.concat(cost);
@@ -70,8 +70,8 @@ export default class EditAscensions extends React.Component {
     onSubmit() {
         console.log(this.state.costs);
         console.log(this.props.history);
-        axios.post('http://localhost:1337/servant/cost', {servant: this.state.servant, costs: this.state.costs})
-        .then(() => this.props.history.push(`/servant/${this.state.servant}`));
+        // axios.post('http://localhost:1337/servant/cost', {servant: this.state.servant, costs: this.state.costs})
+        // .then(() => this.props.history.push(`/servant/${this.state.servant}`));
     }
 
     render() {
@@ -84,7 +84,7 @@ export default class EditAscensions extends React.Component {
             <div>
                 <h2>Edit Servant Ascensions</h2>
                 <div>
-                    <select onChange={this.handleServantChange}>
+                    <select className="servant-select" onChange={this.handleServantChange}>
                         {
                             servants && servants.length ?
                             servants.map(servant => <option value={servant.id} key={servant.id}>{servant.name}</option>)
@@ -93,39 +93,48 @@ export default class EditAscensions extends React.Component {
                     </select>
                 </div>
                 <div>
-                    <button onClick={this.addCost}>Add Cost</button>
-                </div>
-                <div className="ascension-form">
-                <div className="costs-description">
-                    <p>Ascension Level</p>
-                    <p>Item</p>
-                    <p>Quantity</p>
-                </div>
-                {
-                    costs.length ?
-                    costs.map(cost => {
-                        return (
-                            <div key={cost.id} className="costs-form">
-                                <select style={{width: "5em"}} onChange={(event) => this.valueChange(+event.target.value, cost.id, 'lvl')}>
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                </select>
-                                <select onChange={(event) => this.valueChange(+event.target.value, cost.id, 'item')}>
-                                {
-                                    items && items.length ?
-                                    items.map(item => <option key={item.id} value={item.id}>{item.name}</option>)
-                                    : null
-                                }
-                                </select>
-                                <input type="text" onChange={(event) => this.valueChange(+event.target.value, cost.id, 'qt')}></input>
-                                <button onClick={() => this.deleteChoice(cost.id)}>Delete</button>
-                            </div>
-                        );
-                    })
-                    : null
-                }
+                    {
+                        new Array(4).fill(0).map((num, idx) => {
+                            return (
+                                <div key={idx}>
+                                    <div>
+                                        <hr/>
+                                        <h3 className="asc-header">Ascension Level {idx + 1}</h3>
+                                    </div>
+                                    <div>
+                                        <button onClick={() => this.addCost(idx + 1)}>Add Cost</button>
+                                    </div>
+                                    <div className="ascension-form">
+                                    <div className="costs-description">
+                                        <p>Item</p>
+                                        <p>Quantity</p>
+                                    </div>
+                                    {
+                                        costs.length ?
+                                        costs
+                                        .filter(cost => cost.ascLvl === idx + 1)
+                                        .map(cost => {
+                                            return (
+                                                <div key={cost.id} className="costs-form">
+                                                    <select onChange={(event) => this.valueChange(+event.target.value, cost.id, 'item')}>
+                                                    {
+                                                        items && items.length ?
+                                                        items.map(item => <option key={item.id} value={item.id}>{item.name}</option>)
+                                                        : null
+                                                    }
+                                                    </select>
+                                                    <input type="text" onChange={(event) => this.valueChange(+event.target.value, cost.id, 'qt')}></input>
+                                                    <button onClick={() => this.deleteChoice(cost.id)}>Delete</button>
+                                                </div>
+                                            );
+                                        })
+                                        : null
+                                    }
+                                    </div>
+                                </div>
+                            );
+                        })
+                    }
                 </div>
                 <div>
                     <button className="submit-button" onClick={this.onSubmit}>Submit</button>
