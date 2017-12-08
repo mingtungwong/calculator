@@ -68,10 +68,8 @@ export default class EditAscensions extends React.Component {
     }
 
     onSubmit() {
-        console.log(this.state.costs);
-        console.log(this.props.history);
-        // axios.post('http://localhost:1337/servant/cost', {servant: this.state.servant, costs: this.state.costs})
-        // .then(() => this.props.history.push(`/servant/${this.state.servant}`));
+        axios.post('http://localhost:1337/servant/cost', {servant: this.state.servant, costs: this.state.costs})
+        .then(() => this.props.history.push(`/servant/${this.state.servant}`));
     }
 
     render() {
