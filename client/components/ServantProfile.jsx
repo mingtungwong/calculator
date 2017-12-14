@@ -35,8 +35,8 @@ export default class ServantProfile extends React.Component {
                                 .map((x, idx) => <span key={idx} className="glyphicon glyphicon-star"></span>)
                         }
                         </div>
-                        <div>
-                            <img src={`/public/assets/servants/${'000'.slice(servant.profile.id.toString().length) + servant.profile.id}.png`}/>
+                        <div className="servant-portrait">
+                            <img src={`/public/assets/servants/${'000'.slice(servant.profile.id.toString().length) + servant.profile.id}.png`} />
                         </div>
                         <div>
                             <table>
