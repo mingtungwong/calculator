@@ -2,6 +2,10 @@ const router = require('express').Router();
 const db = require('../../db');
 const utils = require('../utilities');
 
+/**
+ * GET Routes
+ */
+
 router.get('/servant/:id', (req, res, next) => {
     const query = `
         SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
@@ -41,12 +45,26 @@ router.get('/servant/cost/:servant_id', (req, res, next) => {
                     }
                     for(let level of ascLevels) {
                         if(level) {
-                            while(level.length < 5)
+                            while(level.length < 4)
                                 level.push(' ');
                         }
                     }
+                    ascLevels.shift();
                     servantObject.costs = ascLevels;
-                    res.send(servantObject);
+
+                    const qpQuery = `
+                        SELECT ascension_level, qp_cost
+                        FROM ascension_qp_cost
+                        WHERE servant_stars = ${servantObject.profile.stars}
+                    `
+                    db.query(qpQuery, (error, result) => {
+                        if(error) next(error);
+                        else if(!result) next(new Error("No results"));
+                        else {
+                            servantObject.qp = result.rows;
+                            res.send(servantObject);
+                        }
+                    })
                 }
             });
         }
@@ -70,6 +88,10 @@ router.get('/servant', (req, res, next) => {
     `;
     utils.handleQuery(query, res, next);
 });
+
+/**
+ * POST routes
+ */
 
 router.post('/servant/cost', (req, res, next) => {
     const servant = req.body.servant;

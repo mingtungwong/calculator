@@ -21,7 +21,7 @@ export default class ServantProfile extends React.Component {
     render() {
 
         const servant = this.state.servant;
-
+        console.log(this.state);
         return (
             <div>
                 {
@@ -56,8 +56,8 @@ export default class ServantProfile extends React.Component {
                                         servant.costs.map((level, idx) => {
                                             return (
                                                 level ? 
-                                                <tr key={idx}>
-                                                    <td>{idx}</td>
+                                                <tr key={idx + 1}>
+                                                    <td>{idx + 1}</td>
                                                     {
                                                         level.map((item, index) => {
                                                             return (
@@ -72,6 +72,7 @@ export default class ServantProfile extends React.Component {
                                                             );
                                                         })
                                                     }
+                                                    <td>{(+servant.qp[idx].qp_cost).toLocaleString('en')}</td>
                                                 </tr>
                                                 : null
                                             )
