@@ -13,9 +13,9 @@ export const ServantTotalMaterialTable = ({materials}) => (
                     
                         return (
                             <tr>
-                                <td>
+                                <td className="mat-rows">
                                     <img height="64px" width="64px" src={`/public/assets/items/${pad(+key)}.png`}/>
-                                    <p>{`x${materials[key]}`}</p>
+                                    <p className="mat-quantity">{`x${materials[key]}`}</p>
                                 </td>
                             </tr>
                         )
