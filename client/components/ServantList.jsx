@@ -35,6 +35,15 @@ export default class ServantList extends React.Component {
                     <div>
                         <h3>Servant List</h3>
                         <table>
+                            <thead>
+                                <tr>
+                                    <th className="td-id">ID</th>
+                                    <th className="td-servant-img">Image</th>
+                                    <th className="td-servant-name">Name</th>
+                                    <th className="td-class-logo">Class</th>
+                                    <th className="td-stars">Rarity</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {
                                     this.state.servants.map(servant => {
