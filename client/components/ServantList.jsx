@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ServantProfile from './ServantProfile.jsx';
 import { Route, Link } from 'react-router-dom';
+import { pad } from '../../utils/';
 
 export default class ServantList extends React.Component {
 
@@ -17,11 +18,7 @@ export default class ServantList extends React.Component {
         .then(res => res.data)
         .then(servants => this.setState({servants}));
     }
-
-    pad(num) {
-        return '000'.slice(num.toString().length) + num;
-    }
-
+    
     getClassImageLocation(servantClass) {
         return `/public/assets/classes/${servantClass.toLowerCase()}.png`;
     }
@@ -44,7 +41,7 @@ export default class ServantList extends React.Component {
                                         return (
                                             <tr key={servant.id}>
                                                 <td className="td-id">{servant.id}</td>
-                                                <td className="td-servant-img"><Link to={`/servant/${servant.id}`}><img className="servant-img" src={`public/assets/servants/${this.pad(servant.id)}.png`}/></Link></td>
+                                                <td className="td-servant-img"><Link to={`/servant/${servant.id}`}><img className="servant-img" src={`public/assets/servants/${pad(servant.id)}.png`}/></Link></td>
                                                 <td className="td-servant-name"><Link to={`/servant/${servant.id}`}>{servant.name}</Link></td>
                                                 <td className="td-class-logo"><img className="class-logo" src={this.getClassImageLocation(servant.class)}/></td>
                                                 <td className="td-stars">{new Array(servant.stars).fill(0).map((x, idx) => {

@@ -1,12 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 
+import ServantTotalMaterialTable from './ServantTotalMaterialTable.jsx';
+
 export default class ServantProfile extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            servant: null
+            servant: null,
+            totalCosts: {}
         };
     }
 
@@ -14,7 +17,17 @@ export default class ServantProfile extends React.Component {
         axios.get(`http://localhost:1337/servant/cost/${this.props.match.params.id}`)
         .then(res => res.data)
         .then(servantObj => {
-            this.setState({servant: servantObj});
+            let total = {};
+            let costs = servantObj.costs;
+            for(let ascLvl of costs) {
+                for(let cost of ascLvl) {
+                    if(cost !== ' ') {
+                        if(!total[cost.id]) total[cost.id] = 0;
+                        total[cost.id] += cost.quantity;
+                    }
+                }
+            }
+            this.setState({servant: servantObj, totalCosts: total});
         });
     }
 
@@ -83,6 +96,13 @@ export default class ServantProfile extends React.Component {
                         </div>
                     </div>
                     : null
+                }
+                {
+                    Object.keys(this.state.totalCosts).length ?
+                    (
+                        <ServantTotalMaterialTable materials={this.state.totalCosts} />
+                    )
+                    : null 
                 }
             </div>
         )

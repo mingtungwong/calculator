@@ -1,0 +1,1 @@
+export const pad = (num) => '000'.slice(num.toString().length) + num;
