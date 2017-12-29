@@ -105,6 +105,11 @@ table {
     margin-left: 20px;
 }
 
+.qp-cost {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
 th, td {
     padding: 0;
     width: 15em;

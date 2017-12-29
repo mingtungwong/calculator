@@ -9,7 +9,8 @@ export default class ServantProfile extends React.Component {
         super();
         this.state = {
             servant: null,
-            totalCosts: {}
+            totalCosts: {},
+            qpTotal: 0
         };
     }
 
@@ -27,7 +28,7 @@ export default class ServantProfile extends React.Component {
                     }
                 }
             }
-            this.setState({servant: servantObj, totalCosts: total});
+            this.setState({servant: servantObj, totalCosts: total, qpTotal: servantObj.qp.reduce((total, obj) => total + +obj["qp_cost"], 0)});
         });
     }
 
@@ -100,7 +101,7 @@ export default class ServantProfile extends React.Component {
                 {
                     Object.keys(this.state.totalCosts).length ?
                     (
-                        <ServantTotalMaterialTable materials={this.state.totalCosts} />
+                        <ServantTotalMaterialTable materials={this.state.totalCosts} qp={this.state.qpTotal.toLocaleString('en')}/>
                     )
                     : null 
                 }

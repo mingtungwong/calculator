@@ -1,7 +1,7 @@
 import React from 'react';
 import { pad } from '../../utils';
 
-export const ServantTotalMaterialTable = ({materials}) => (
+export const ServantTotalMaterialTable = ({materials, qp}) => (
     <div>
         <table>
             <thead>
@@ -22,6 +22,9 @@ export const ServantTotalMaterialTable = ({materials}) => (
                         )
                     )
                 }
+                <tr height="64px">
+                    <td className="qp-cost">{`QP x${qp}`}</td>
+                </tr>
             </tbody>
         </table>
     </div>
