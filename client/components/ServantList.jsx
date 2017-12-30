@@ -9,18 +9,71 @@ export default class ServantList extends React.Component {
     constructor() {
         super();
         this.state = {
-            servants: []
+            allServants: [],
+            servants: [],
+            classes: [],
+            sortBy: "id",
+            order: true,
+            classFilter: "any",
+            starFilter: "any"
         }
+        this.onChange = this.onChange.bind(this);
+        this.filter = this.filter.bind(this);
     }
 
     componentWillMount() {
         axios.get('http://localhost:1337/servant')
         .then(res => res.data)
-        .then(servants => this.setState({servants}));
+        .then(servants => {
+            let classes = this.getClassesFromServants(servants);
+            this.setState({allServants: servants, servants, classes});
+        });
     }
     
+    getClassesFromServants(servants) {
+        return Array.from(new Set(servants.map(servant => servant.class)));
+    }
+
     getClassImageLocation(servantClass) {
         return `/public/assets/classes/${servantClass.toLowerCase()}.png`;
+    }
+
+    onChange(event) {
+        const obj = {};
+        const value = event.target.value;
+        const id = event.target.id;
+        switch(id) {
+            case 'servant_list_sort_criteria': obj.sortBy = value; break;
+            case 'servant_list_sort_order': obj.order = value; break;
+            case 'servant_class_filter': obj.classFilter = value; break;
+            case 'servant_star_filter': obj.starFilter = value; break;
+        }
+        this.setState(obj);
+    }
+
+    filter(event) {
+        const cFilter = this.state.classFilter;
+        const sFilter = this.state.starFilter;
+        const sortBy = this.state.sortBy;
+        const order = this.state.order;
+
+        const servants = this.state.allServants
+                            .map(servant => servant)
+                            .filter(servant => {
+                                if(cFilter === "any" && sFilter === "any") return true;
+                                else if(cFilter !== "any" && sFilter !== "any") return servant.class === cFilter && servant.stars == sFilter;
+                                else if(cFilter === "any") return servant.stars == sFilter;
+                                else return servant.class === cFilter;
+                            })
+                            .sort((a, b) => {
+                                let sortValue = 0;
+                                if(sortBy === "id") sortValue = a.id - b.id;
+                                else if(sortBy === "name") sortValue = a.name < b.name ? -1 : 1;
+                                else sortValue = a.stars - b.stars;
+                                if(order === "desc") sortValue *= -1;
+                                return sortValue;
+                            });
+        this.setState({servants});
     }
 
     render() {
@@ -34,6 +87,40 @@ export default class ServantList extends React.Component {
                     :
                     <div>
                         <h3>Servant List</h3>
+                        <div>
+                            <label htmlFor="servant_list_sort_criteria">Sort By:</label>
+                            <select id="servant_list_sort_criteria" onChange={this.onChange}>
+                                <option value="id">ID</option>
+                                <option value="name">Name</option>
+                                <option value="stars">Stars</option>
+                            </select>
+                            <label htmlFor="servant_list_sort_order">Order:</label>
+                            <select id="servant_list_sort_order" onChange={this.onChange}>
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="servant_class_filter">Class:</label>
+                            <select id="servant_class_filter" onChange={this.onChange}>
+                                <option value="any">Any</option>
+                                {
+                                    this.state.classes.map(servantClass => <option value={servantClass} key={servantClass}>{servantClass}</option>)
+                                }
+                            </select>
+                            <label htmlFor="servant_star_filter" onChange={this.onChange}>Stars</label>
+                            <select id="servant_star_filter" onChange={this.onChange}>
+                                <option value="any">Any</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button onClick={this.filter}>Apply</button>
+                        </div>
                         <table>
                             <thead>
                                 <tr>
