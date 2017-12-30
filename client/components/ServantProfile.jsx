@@ -98,13 +98,16 @@ export default class ServantProfile extends React.Component {
                     </div>
                     : null
                 }
-                {
-                    Object.keys(this.state.totalCosts).length ?
-                    (
-                        <ServantTotalMaterialTable materials={this.state.totalCosts} qp={this.state.qpTotal.toLocaleString('en')}/>
-                    )
-                    : null 
-                }
+                <div>
+                    <h3>Total Material Cost</h3>
+                    {
+                        Object.keys(this.state.totalCosts).length ?
+                        (
+                            <ServantTotalMaterialTable materials={this.state.totalCosts} qp={this.state.qpTotal.toLocaleString('en')}/>
+                        )
+                        : null 
+                    }
+                </div>
             </div>
         )
     }
