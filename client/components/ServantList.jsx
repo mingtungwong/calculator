@@ -15,7 +15,8 @@ export default class ServantList extends React.Component {
             sortBy: "id",
             order: true,
             classFilter: "any",
-            starFilter: "any"
+            starFilter: "any",
+            textFilter: ""
         }
         this.onChange = this.onChange.bind(this);
         this.filter = this.filter.bind(this);
@@ -51,7 +52,7 @@ export default class ServantList extends React.Component {
         this.setState(obj);
     }
 
-    filter(event) {
+    filter(event, text = this.state.textFilter) {
         const cFilter = this.state.classFilter;
         const sFilter = this.state.starFilter;
         const sortBy = this.state.sortBy;
@@ -65,6 +66,7 @@ export default class ServantList extends React.Component {
                                 else if(cFilter === "any") return servant.stars == sFilter;
                                 else return servant.class === cFilter;
                             })
+                            .filter(servant => servant.name.toLowerCase().includes(text) || servant.class.toLowerCase().includes(text))
                             .sort((a, b) => {
                                 let sortValue = 0;
                                 if(sortBy === "id") sortValue = a.id - b.id;
@@ -73,14 +75,14 @@ export default class ServantList extends React.Component {
                                 if(order === "desc") sortValue *= -1;
                                 return sortValue;
                             });
-        this.setState({servants});
+        this.setState({servants, textFilter: text});
     }
 
     render() {
         return (
             <div>
                 {
-                    !this.state.servants.length ?
+                    !this.state.allServants.length ?
                     <p>
                         Loading
                     </p>
@@ -120,6 +122,10 @@ export default class ServantList extends React.Component {
                         </div>
                         <div>
                             <button onClick={this.filter}>Apply</button>
+                        </div>
+                        <div>
+                            <label htmlFor="servant_text_filter">Text Filter:</label>
+                            <input type="text" id="servant_text_filter" className="text-filter" onChange={(event) => this.filter(null, event.target.value.toLowerCase())}/>
                         </div>
                         <table>
                             <thead>

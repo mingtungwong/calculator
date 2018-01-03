@@ -115,6 +115,10 @@ table {
     font-weight: bold;
 }
 
+.text-filter {
+    margin-top: 10px;
+}
+
 th, td {
     padding: 0;
     width: 15em;
