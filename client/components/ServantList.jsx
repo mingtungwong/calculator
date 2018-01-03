@@ -13,13 +13,14 @@ export default class ServantList extends React.Component {
             servants: [],
             classes: [],
             sortBy: "id",
-            order: true,
+            order: "asc",
             classFilter: "any",
             starFilter: "any",
             textFilter: ""
         }
         this.onChange = this.onChange.bind(this);
         this.filter = this.filter.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     componentWillMount() {
@@ -52,7 +53,11 @@ export default class ServantList extends React.Component {
         this.setState(obj);
     }
 
-    filter(event, text = this.state.textFilter) {
+    reset() {
+        this.setState({sortBy: "id", order: "asc", classFilter: "any", starFilter: "any"}, this.filter);
+    }
+
+    filter(event=null, text = this.state.textFilter) {
         const cFilter = this.state.classFilter;
         const sFilter = this.state.starFilter;
         const sortBy = this.state.sortBy;
@@ -90,27 +95,31 @@ export default class ServantList extends React.Component {
                     <div>
                         <h3>Servant List</h3>
                         <div>
+                            <label htmlFor="servant_text_filter">Text Filter:</label>
+                            <input type="text" id="servant_text_filter" className="text-filter" onChange={(event) => this.filter(null, event.target.value.toLowerCase())}/>
+                        </div>
+                        <div>
                             <label htmlFor="servant_list_sort_criteria">Sort By:</label>
-                            <select id="servant_list_sort_criteria" onChange={this.onChange}>
+                            <select id="servant_list_sort_criteria" onChange={this.onChange} value={this.state.sortBy}>
                                 <option value="id">ID</option>
                                 <option value="name">Name</option>
                                 <option value="stars">Stars</option>
                             </select>
-                            <label htmlFor="servant_list_sort_order">Order:</label>
+                            <label htmlFor="servant_list_sort_order" value={this.state.order}>Order:</label>
                             <select id="servant_list_sort_order" onChange={this.onChange}>
                                 <option value="asc">Ascending</option>
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="servant_class_filter">Class:</label>
+                            <label htmlFor="servant_class_filter" value={this.state.classFilter}>Class:</label>
                             <select id="servant_class_filter" onChange={this.onChange}>
                                 <option value="any">Any</option>
                                 {
                                     this.state.classes.map(servantClass => <option value={servantClass} key={servantClass}>{servantClass}</option>)
                                 }
                             </select>
-                            <label htmlFor="servant_star_filter" onChange={this.onChange}>Stars</label>
+                            <label htmlFor="servant_star_filter" onChange={this.onChange} value={this.state.starFilter}>Stars</label>
                             <select id="servant_star_filter" onChange={this.onChange}>
                                 <option value="any">Any</option>
                                 <option value="1">1</option>
@@ -120,12 +129,9 @@ export default class ServantList extends React.Component {
                                 <option value="5">5</option>
                             </select>
                         </div>
-                        <div>
+                        <div className="servant-list-buttons">
                             <button onClick={this.filter}>Apply</button>
-                        </div>
-                        <div>
-                            <label htmlFor="servant_text_filter">Text Filter:</label>
-                            <input type="text" id="servant_text_filter" className="text-filter" onChange={(event) => this.filter(null, event.target.value.toLowerCase())}/>
+                            <button onClick={this.reset}>Reset</button>
                         </div>
                         <table>
                             <thead>

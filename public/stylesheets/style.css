@@ -116,7 +116,11 @@ table {
 }
 
 .text-filter {
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
+}
+
+.servant-list-buttons button {
+    margin: 5px;
 }
 
 th, td {
