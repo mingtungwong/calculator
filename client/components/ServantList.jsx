@@ -59,18 +59,15 @@ export default class ServantList extends React.Component {
     }
 
     filter(event=null, text = this.state.textFilter) {
-        const cFilter = this.state.classFilter;
-        const sFilter = this.state.starFilter;
-        const sortBy = this.state.sortBy;
-        const order = this.state.order;
+        const { classFilter, starFilter, sortBy, order } = this.state;
 
         const servants = this.state.allServants
                             .map(servant => servant)
                             .filter(servant => {
-                                if(cFilter === "any" && sFilter === "any") return true;
-                                else if(cFilter !== "any" && sFilter !== "any") return servant.class === cFilter && servant.stars == sFilter;
-                                else if(cFilter === "any") return servant.stars == sFilter;
-                                else return servant.class === cFilter;
+                                if(classFilter === "any" && starFilter === "any") return true;
+                                else if(classFilter !== "any" && starFilter !== "any") return servant.class === classFilter && servant.stars == starFilter;
+                                else if(classFilter === "any") return servant.stars == starFilter;
+                                else return servant.class === classFilter;
                             })
                             .filter(servant => servant.name.toLowerCase().includes(text) || servant.class.toLowerCase().includes(text))
                             .sort((a, b) => {

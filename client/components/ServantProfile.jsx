@@ -34,9 +34,7 @@ export default class ServantProfile extends React.Component {
     }
 
     render() {
-
-        const servant = this.state.servant;
-        console.log(this.state);
+        const { servant } = this.state;
         return (
             <div>
                 {
