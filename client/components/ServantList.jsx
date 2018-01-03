@@ -54,7 +54,7 @@ export default class ServantList extends React.Component {
     }
 
     reset() {
-        this.setState({sortBy: "id", order: "asc", classFilter: "any", starFilter: "any"}, this.filter);
+        this.setState({sortBy: "id", order: "asc", classFilter: "any", starFilter: "any", textFilter: ""}, this.filter);
     }
 
     filter(event=null, text = this.state.textFilter) {
@@ -96,7 +96,7 @@ export default class ServantList extends React.Component {
                         <h3>Servant List</h3>
                         <div>
                             <label htmlFor="servant_text_filter">Text Filter:</label>
-                            <input type="text" id="servant_text_filter" className="text-filter" onChange={(event) => this.filter(null, event.target.value.toLowerCase())}/>
+                            <input type="text" id="servant_text_filter" className="text-filter" value={this.state.textFilter} onChange={(event) => this.filter(null, event.target.value.toLowerCase())}/>
                         </div>
                         <div>
                             <label htmlFor="servant_list_sort_criteria">Sort By:</label>
