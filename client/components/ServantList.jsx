@@ -105,22 +105,22 @@ export default class ServantList extends React.Component {
                                 <option value="name">Name</option>
                                 <option value="stars">Stars</option>
                             </select>
-                            <label htmlFor="servant_list_sort_order" value={this.state.order}>Order:</label>
-                            <select id="servant_list_sort_order" onChange={this.onChange}>
+                            <label htmlFor="servant_list_sort_order">Order:</label>
+                            <select id="servant_list_sort_order" onChange={this.onChange} value={this.state.order}>
                                 <option value="asc">Ascending</option>
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="servant_class_filter" value={this.state.classFilter}>Class:</label>
-                            <select id="servant_class_filter" onChange={this.onChange}>
+                            <label htmlFor="servant_class_filter">Class:</label>
+                            <select id="servant_class_filter" onChange={this.onChange} value={this.state.classFilter}>
                                 <option value="any">Any</option>
                                 {
                                     this.state.classes.map(servantClass => <option value={servantClass} key={servantClass}>{servantClass}</option>)
                                 }
                             </select>
-                            <label htmlFor="servant_star_filter" onChange={this.onChange} value={this.state.starFilter}>Stars</label>
-                            <select id="servant_star_filter" onChange={this.onChange}>
+                            <label htmlFor="servant_star_filter" onChange={this.onChange}>Stars</label>
+                            <select id="servant_star_filter" onChange={this.onChange} value={this.state.starFilter}>
                                 <option value="any">Any</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
