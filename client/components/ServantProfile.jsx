@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../../config.json';
 
 import ServantTotalMaterialTable from './ServantTotalMaterialTable.jsx';
 
@@ -15,7 +16,7 @@ export default class ServantProfile extends React.Component {
     }
 
     componentWillMount() {
-        axios.get(`http://localhost:1337/servant/cost/${this.props.match.params.id}`)
+        axios.get(`${config.server}/servant/cost/${this.props.match.params.id}`)
         .then(res => res.data)
         .then(servantObj => {
             let total = {};

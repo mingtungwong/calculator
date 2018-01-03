@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../../config.json';
 
 export default class EditAscensions extends React.Component {
 
@@ -21,14 +22,14 @@ export default class EditAscensions extends React.Component {
 
     componentWillMount() {
         const obj = {};
-        axios.get('http://localhost:1337/servant/all/basic')
+        axios.get(`${config.server}/servant/all/basic`)
         .then(res => res.data)
         .then(servants => {
             obj.servants = servants;
             obj.servant = servants[0].id;
             return;
         })
-        .then(() => axios.get('http://localhost:1337/item'))
+        .then(() => axios.get(`${config.server}/item`))
         .then(res => res.data)
         .then(items => {
             obj.items = items;
@@ -68,7 +69,7 @@ export default class EditAscensions extends React.Component {
     }
 
     onSubmit() {
-        axios.post('http://localhost:1337/servant/cost', {servant: this.state.servant, costs: this.state.costs})
+        axios.post(`${config.server}/servant/cost`, {servant: this.state.servant, costs: this.state.costs})
         .then(() => this.props.history.push(`/servant/${this.state.servant}`));
     }
 

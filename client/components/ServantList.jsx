@@ -3,6 +3,7 @@ import axios from 'axios';
 import ServantProfile from './ServantProfile.jsx';
 import { Route, Link } from 'react-router-dom';
 import { pad } from '../../utils/';
+import config from '../../config.json';
 
 export default class ServantList extends React.Component {
 
@@ -24,7 +25,7 @@ export default class ServantList extends React.Component {
     }
 
     componentWillMount() {
-        axios.get('http://localhost:1337/servant')
+        axios.get(`${config.server}/servant`)
         .then(res => res.data)
         .then(servants => {
             let classes = this.getClassesFromServants(servants);
