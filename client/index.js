@@ -14,7 +14,7 @@ ReactDOM.render((
         <App >
             <Route path="/edit/add/servant" component={AddServant}/>
             <Route path="/edit/add/ascensions" component={EditAscensions}/>
-            <Route path="/edit" component={EditMenu}/>
+            <Route path="/menu" component={EditMenu}/>
             <Route path="/servant/:id" exact component={ServantProfile} />
             <Route path="/servants" component={ServantList}/>
             <Route path="/" exact component={Home}/>
