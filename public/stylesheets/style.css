@@ -23,6 +23,21 @@ table {
     empty-cells: show;
 }
 
+#add-servant-form {
+    margin: 0 auto;
+    width: 50%;
+}
+
+#add-servant-form div {
+    margin: 0 auto;
+    width: 75%;
+}
+
+#add-servant-form form {
+    margin-top: 10px;
+    text-align: left;
+}
+
 #edit-menu-options a {
     display: block;
 }
@@ -154,4 +169,10 @@ th, td {
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     color: black !important;
+}
+
+.error {
+    color: red;
+    font-weight: italic;
+    font-size: 1em;
 }
