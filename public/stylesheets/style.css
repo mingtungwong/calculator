@@ -23,6 +23,10 @@ table {
     empty-cells: show;
 }
 
+#edit-menu-options a {
+    display: block;
+}
+
 .servant-select {
     margin-bottom: 30px;
 }
