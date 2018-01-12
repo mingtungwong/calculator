@@ -13,7 +13,8 @@ export default class AddServant extends React.Component {
             stars: 1,
             id: null,
             nameError: false,
-            idError: false
+            idError: false,
+            serverError: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -29,10 +30,15 @@ export default class AddServant extends React.Component {
         const { name, classID, stars, id } = this.state;
         if(name.length > 0 && !isNaN(id) && id > 0) {
             console.log("No errors");
+            const servant = {name: this.state.name, classID: this.state.classID, stars: this.state.stars, id: this.state.id};
+            axios.post(`${config.server}/servant/new`, servant)
+            .then(res => this.props.history.push('/servants'))
+            .catch(error => this.setState({serverError: true}));
         } else {
             const errorObj = {};
             errorObj.nameError = name.length === 0;
             errorObj.idError = isNaN(id) || id <= 0;
+            errorObj.serverError = false;
             this.setState(errorObj);
         }
     }
@@ -41,8 +47,14 @@ export default class AddServant extends React.Component {
         const obj = {};
         const { value, id } = event.target;
         switch(id.substring(12)) {
-            case 'servant_name': obj.name = value; break;
-            case 'servant_id': obj.id = +value; break;
+            case 'servant_name':
+                obj.name = value;
+                obj.nameError = false;
+                break;
+            case 'servant_id':
+                obj.id = +value;
+                obj.idError = false;
+                break;
             case 'servant_class': obj.classID = +value; break;
             case 'servant_stars': obj.stars = +value; break;
         }
@@ -50,7 +62,6 @@ export default class AddServant extends React.Component {
     }
 
     render() {
-        console.log(this.state.servantClasses);
         return (
             <div id="add-servant-form">
                 <h2>Add Servant</h2>
@@ -63,6 +74,11 @@ export default class AddServant extends React.Component {
                     {
                         this.state.idError ?
                         <ErrorMessage message={`The ID must be a valid numerical value that is greater than 0`} />
+                        : null
+                    }
+                    {
+                        this.state.serverError ?
+                        <ErrorMessage message={`There is a server error. Please try again in a few moments`} />
                         : null
                     }
                     <form id="add_servant" onChange={this.handleChange}>

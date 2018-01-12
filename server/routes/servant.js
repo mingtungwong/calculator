@@ -78,7 +78,7 @@ router.get('/servant/all/basic', (req, res, next) => {
         ORDER BY name ASC
     `;
     utils.handleQuery(query, res, next);
-})
+});
 
 router.get('/servant', (req, res, next) => {
     const query = `
@@ -93,10 +93,31 @@ router.get('/servant', (req, res, next) => {
  * POST routes
  */
 
+ router.post('/servant/new', (req, res, next) => {
+     const { name, classID, stars, id } = req.body;
+     const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
+     let error = false;
+     (async () => {
+        const client = await db.connect();
+        try {
+            await client.query('BEGIN');
+            await client.query(queryText);
+            await client.query('COMMIT');
+        } catch(e) {
+            await client.query('ROLLBACK');
+            error = true;
+            throw e;
+        } finally {
+            client.release();
+            res.sendStatus(error ? 500 : 200);
+        }
+     })();
+ });
+
 router.post('/servant/cost', (req, res, next) => {
-    const servant = req.body.servant;
-    const costs = req.body.costs;
-    const queryText = `INSERT into ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
+    const { servant, costs } = req.body;
+
+    const queryText = `INSERT INTO ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
     const values = costs.map(cost => `(${servant}, ${cost.ascLvl}, ${cost.itemId}, ${cost.quantity})`);
     const fullQuery = queryText + values.join(',');
 
@@ -114,6 +135,6 @@ router.post('/servant/cost', (req, res, next) => {
             res.sendStatus(200);
         }
     })();
-})
+});
 
 module.exports = router;
