@@ -43,7 +43,7 @@ export default class ServantList extends React.Component {
 
     onChange(event) {
         const obj = {};
-        const { value, id } = event.target.value;
+        const { value, id } = event.target;
         switch(id) {
             case 'servant_list_sort_criteria': obj.sortBy = value; break;
             case 'servant_list_sort_order': obj.order = value; break;
