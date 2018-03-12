@@ -77,7 +77,7 @@ export default class ServantProfile extends React.Component {
                                                                 item ?
                                                                 item !== ' ' ?
                                                                 <td key={index} className="mat-rows">
-                                                                    <img height="64px" width="64px" src={`/public/assets/items/${'000'.slice(item.id.toString().length) + item.id}.png`}/>
+                                                                    <img height="64px" width="64px" src={`/public/assets/items/${'000'.slice(item.id.toString().length) + item.id}.png`} title={item.item}/>
                                                                     <p className="mat-quantity">{`x${item.quantity}`}</p>
                                                                 </td>
                                                                 : <td key={index} className="mat-rows"></td>
