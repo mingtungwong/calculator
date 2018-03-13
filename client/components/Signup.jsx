@@ -9,16 +9,22 @@ export default class Signup extends React.Component {
             signupPassword: "",
             signupConfirmPassword: "",
             passwordValidationState: null,
-            confirmPasswordValidationState: null   
+            confirmPasswordValidationState: null,
+            emailValidationState: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.validate = this.validate.bind(this);
+        this.validateEmail = this.validateEmail.bind(this);
     }
 
     handleSubmit(event) {
-        const passwordValidation = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
         const { signupEmail, signupPassword, signupConfirmPassword } = this.state;
+        if(this.state.passwordValidationState === "success"
+            && this.state.confirmPasswordValidationState === "success"
+            && this.state.emailValidationState === "success") {
+                console.log("Success!");
+        }
     }
 
     handleChange(event) {
@@ -29,7 +35,15 @@ export default class Signup extends React.Component {
         const passwordValidation = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
         const passwordValidationState = passwordValidation.test(this.state.signupPassword) ? "success" : "error";
         const confirmPasswordValidationState = this.state.signupPassword === this.state.signupConfirmPassword ? "success" : "error";
-        this.setState({ passwordValidationState, confirmPasswordValidationState });
+        const emailValidationState = this.validateEmail() ? "success" : "error";
+        this.setState({ passwordValidationState, confirmPasswordValidationState, emailValidationState });
+    }
+
+    validateEmail() {
+        const { signupEmail } = this.state;
+        const atIndex = signupEmail.indexOf('@');
+        const dotIndex = signupEmail.indexOf('.');
+        return signupEmail.length > 5 && atIndex > -1 && dotIndex > -1 && atIndex < dotIndex;
     }
 
     render() {
@@ -37,9 +51,18 @@ export default class Signup extends React.Component {
             <Form horizontal onSubmit={this.handleSubmit}>
                 <FormGroup controlId="signupEmail" onChange={this.handleChange}>
                     <Col sm={4} smOffset={4}>
-                        <FormControl type="email" placeholder="Email" minLength="1"/>
+                        <FormControl type="text" placeholder="Email"/>
                     </Col>
                 </FormGroup>
+                {
+                    this.state.emailValidationState === "error" ?
+                    <FormGroup validationState="error">
+                        <HelpBlock>
+                            Invalid email address!
+                        </HelpBlock>
+                    </FormGroup>
+                    : null
+                }
                 <FormGroup
                     controlId="signupPassword"
                     onChange={this.handleChange}
