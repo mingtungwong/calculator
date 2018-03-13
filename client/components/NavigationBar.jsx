@@ -45,18 +45,23 @@ export default class NavigationBar extends React.Component {
                     <Form horizontal style={{paddingTop: "10px"}}>
                         <FormGroup controlId="formHorizontalEmail">
                             <Col />
-                            <Col sm={8} smOffset={2}>
+                            <Col sm={9} smOffset={2}>
                                 <FormControl type="email" placeholder="Email" />
                             </Col>
                         </FormGroup>
                         <FormGroup controlId="formHorizontalPassword">
-                            <Col sm={8} smOffset={2}>
+                            <Col sm={9} smOffset={2}>
                                 <FormControl type="password" placeholder="Password" />
                             </Col>
                         </FormGroup>
                         <FormGroup>
-                            <Col smOffset={1} sm={10}>
+                            <Col smOffset={2} sm={9}>
                                 <Button type="submit">Sign in</Button>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col smOffset={5} sm={3}>
+                                <Link to="/signup" onClick={this.toggleShowLogin}>Signup</Link>
                             </Col>
                         </FormGroup>
                     </Form>
