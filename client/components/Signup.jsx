@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, FormControl, Col, ControlLabel, Button } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Col, ControlLabel, Button, HelpBlock } from 'react-bootstrap';
 
 export default class Signup extends React.Component {
     constructor() {
@@ -43,12 +43,21 @@ export default class Signup extends React.Component {
                 <FormGroup
                     controlId="signupPassword"
                     onChange={this.handleChange}
-                    validationState={this.state.passwordValidationState}    
+                    validationState={this.state.passwordValidationState}   
                 >
                     <Col sm={4} smOffset={4}>
                         <FormControl type="password" placeholder="Password"/>
                     </Col>
                 </FormGroup>
+                {
+                    this.state.passwordValidationState === "error" ?
+                    <FormGroup validationState="error">
+                        <HelpBlock>
+                            Minimum 8 characters, 1 Uppercase, 1 Lowercase, and 1 Number
+                        </HelpBlock>
+                    </FormGroup>
+                    : null
+                }
                 <FormGroup
                     controlId="signupConfirmPassword"
                     onChange={this.handleChange}
@@ -58,6 +67,15 @@ export default class Signup extends React.Component {
                         <FormControl type="password" placeholder="Confirm Password"/>
                     </Col>
                 </FormGroup>
+                {
+                    this.state.confirmPasswordValidationState === "error" ?
+                    <FormGroup validationState="error">
+                        <HelpBlock>
+                            Passwords do not match!
+                        </HelpBlock>
+                    </FormGroup>
+                    : null
+                }
                 <FormGroup>
                     <Col sm={4} smOffset={4}>
                         <Button type="submit">Submit</Button>
