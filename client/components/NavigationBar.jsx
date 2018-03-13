@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem, PageHeader, Form, FormGroup, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, PageHeader } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 export default class NavigationBar extends React.Component {
@@ -40,6 +41,26 @@ export default class NavigationBar extends React.Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
+                <div id="login-box" style={{display: this.state.showLoginBox ? "block" : "none"}}>
+                    <Form horizontal style={{paddingTop: "10px"}}>
+                        <FormGroup controlId="formHorizontalEmail">
+                            <Col />
+                            <Col sm={8} smOffset={2}>
+                                <FormControl type="email" placeholder="Email" />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup controlId="formHorizontalPassword">
+                            <Col sm={8} smOffset={2}>
+                                <FormControl type="password" placeholder="Password" />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col smOffset={1} sm={10}>
+                                <Button type="submit">Sign in</Button>
+                            </Col>
+                        </FormGroup>
+                    </Form>
+                </div>
             </div>
         )
     }
