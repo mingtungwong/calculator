@@ -6,18 +6,20 @@ module.exports = {
         else if(!result) next(new Error("No result"));
         else res.send(result.rows);
     },
-    handleQuery: (query, res, next) => {
+    handleQuery: function(query, res, next) {
         db.query(query, (error, result) => {
             this.handleResponse(res, next, error, result);
         });
     },
-    handleDBTransaction: (res, queryText, handleResultsFunction) => {
+    handleDBTransaction: function(res, queryText, handleResultsFunction) {
         let error = false;
+        let resultingRows;
         (async () => {
             const client = await db.connect();
             try {
                 await client.query('BEGIN');
                 const { rows } = await client.query(queryText);
+                resultingRows = rows;
                 await client.query('COMMIT');
             } catch(e) {
                 await client.query('ROLLBACK');
@@ -25,7 +27,7 @@ module.exports = {
                 throw e;
             } finally {
                 client.release();
-                handleResultsFunction(res, rows, error);
+                handleResultsFunction(res, resultingRows, error);
             }
         })();
     }

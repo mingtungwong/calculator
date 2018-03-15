@@ -94,24 +94,14 @@ router.get('/servant', (req, res, next) => {
  */
 
  router.post('/servant/new', (req, res, next) => {
-     const { name, classID, stars, id } = req.body;
-     const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
-     let error = false;
-     (async () => {
-        const client = await db.connect();
-        try {
-            await client.query('BEGIN');
-            await client.query(queryText);
-            await client.query('COMMIT');
-        } catch(e) {
-            await client.query('ROLLBACK');
-            error = true;
-            throw e;
-        } finally {
-            client.release();
-            res.sendStatus(error ? 500 : 200);
-        }
-     })();
+    const { name, classID, stars, id } = req.body;
+    const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
+    
+    utils.handleDBTransaction(res, queryText, function(res, rows, error) {
+        if(error) res.sendStatus(500);
+        else if(rows) res.json(rows);
+        else res.sendStatus(200);
+    })
  });
 
 router.post('/servant/cost', (req, res, next) => {
