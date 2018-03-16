@@ -96,12 +96,7 @@ router.get('/servant', (req, res, next) => {
  router.post('/servant/new', (req, res, next) => {
     const { name, classID, stars, id } = req.body;
     const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
-    
-    utils.handleDBTransaction(res, queryText, function(res, rows, error) {
-        if(error) res.sendStatus(500);
-        else if(rows) res.json(rows);
-        else res.sendStatus(200);
-    })
+    utils.handleDBTransaction(res, queryText, utils.simpleDBTransactionResponseHandler);
  });
 
 router.post('/servant/cost', (req, res, next) => {
@@ -110,21 +105,7 @@ router.post('/servant/cost', (req, res, next) => {
     const queryText = `INSERT INTO ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
     const values = costs.map(cost => `(${servant}, ${cost.ascLvl}, ${cost.itemId}, ${cost.quantity})`);
     const fullQuery = queryText + values.join(',');
-
-    (async () => {
-        const client = await db.connect();
-        try {
-            await client.query('BEGIN');
-            await client.query(fullQuery);
-            await client.query('COMMIT');
-        } catch(e) {
-            await client.query('ROLLBACK');
-            throw e;
-        } finally {
-            client.release();
-            res.sendStatus(200);
-        }
-    })();
+    utils.handleDBTransaction(res, fullQuery, utils.simpleDBTransactionResponseHandler);
 });
 
 module.exports = router;
