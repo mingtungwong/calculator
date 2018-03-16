@@ -30,5 +30,10 @@ module.exports = {
                 handleResultsFunction(res, resultingRows, error);
             }
         })();
+    },
+    simpleDBTransactionResponseHandler: (res, rows, error) => {
+        if(error) res.sendStatus(500);
+        else if(rows) res.json(rows);
+        else res.sendStatus(200);
     }
 }
