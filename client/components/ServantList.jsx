@@ -25,7 +25,7 @@ export default class ServantList extends React.Component {
     }
 
     componentWillMount() {
-        axios.get(`${config.server}/servant`)
+        axios.get(`${config.server}/api/servant`)
         .then(res => res.data)
         .then(servants => {
             let classes = this.getClassesFromServants(servants);

@@ -21,7 +21,7 @@ export default class AddServant extends React.Component {
     }
 
     componentWillMount() {
-        axios.get(`${config.server}/data/classes`)
+        axios.get(`${config.server}/api/data/classes`)
         .then(res => res.data)
         .then(servantClasses => this.setState({servantClasses}));
     }
@@ -31,7 +31,7 @@ export default class AddServant extends React.Component {
         if(name.length > 0 && !isNaN(id) && id > 0) {
             console.log("No errors");
             const servant = {name: this.state.name, classID: this.state.classID, stars: this.state.stars, id: this.state.id};
-            axios.post(`${config.server}/servant/new`, servant)
+            axios.post(`${config.server}/api/servant/new`, servant)
             .then(res => this.props.history.push('/servants'))
             .catch(error => this.setState({serverError: true}));
         } else {

@@ -22,14 +22,14 @@ export default class EditAscensions extends React.Component {
 
     componentWillMount() {
         const obj = {};
-        axios.get(`${config.server}/servant/all/basic`)
+        axios.get(`${config.server}/api/servant/all/basic`)
         .then(res => res.data)
         .then(servants => {
             obj.servants = servants;
             obj.servant = servants[0].id;
             return;
         })
-        .then(() => axios.get(`${config.server}/item`))
+        .then(() => axios.get(`${config.server}/api/item`))
         .then(res => res.data)
         .then(items => {
             obj.items = items;
@@ -69,7 +69,7 @@ export default class EditAscensions extends React.Component {
     }
 
     onSubmit() {
-        axios.post(`${config.server}/servant/cost`, {servant: this.state.servant, costs: this.state.costs})
+        axios.post(`${config.server}/api/servant/cost`, {servant: this.state.servant, costs: this.state.costs})
         .then(() => this.props.history.push(`/servant/${this.state.servant}`));
     }
 

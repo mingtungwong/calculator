@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("public"));
-app.use(require('./routes'));
+app.use('/api', require('./routes'));
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
