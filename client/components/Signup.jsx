@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, FormGroup, FormControl, Col, ControlLabel, Button, HelpBlock } from 'react-bootstrap';
+import axios from 'axios';
+import config from '../../config.json';
 
 export default class Signup extends React.Component {
     constructor() {
@@ -23,7 +25,9 @@ export default class Signup extends React.Component {
         if(this.state.passwordValidationState === "success"
             && this.state.confirmPasswordValidationState === "success"
             && this.state.emailValidationState === "success") {
-                console.log("Success!");
+                axios.post(`${config.server}/api/authentication/signup`, { email: signupEmail, password: signupPassword })
+                .then(res => res.data)
+                .then(responseBody => console.log(responseBody));
         }
     }
 
