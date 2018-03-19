@@ -16,7 +16,9 @@ router.get('/data/classes', (req, res, next) => {
  */
 
  router.post('/data/add/class', (req, res, next) => {
-
+    const { className } = req.body;
+    const query = `INSERT INTO servant_class (name) VALUES ('${className}');`;
+    utils.handleDBTransaction(res, query, utils.simpleDBTransactionResponseHandler);
  });
 
 module.exports = router;

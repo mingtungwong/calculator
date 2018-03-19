@@ -1,22 +1,24 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../../config.json';
 
 export default class AddClass extends React.Component {
     constructor() {
         super();
         this.state = {
-            class: ""
+            className: ""
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onChange(event) {
-        this.setState({class: event.target.value});
+        this.setState({className: event.target.value});
     }
 
     onSubmit() {
-        console.log(this.state.class);
+        axios.post(`${config.server}/api/data/add/class`, this.state)
+        .then(() => this.props.history.push(`/servants`));
     }
 
     render() {
