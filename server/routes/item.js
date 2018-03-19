@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const db = require('../../db');
 
-router.get('/item', (req, res, next) => {
+router.get('/', (req, res, next) => {
     const query = `
         SELECT id, name
         FROM item

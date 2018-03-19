@@ -6,7 +6,7 @@ const utils = require('../utilities');
  * GET Routes
  */
 
-router.get('/servant/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     const query = `
         SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
         FROM servant INNER JOIN servant_class ON servant.class_id = servant_class.id
@@ -15,7 +15,7 @@ router.get('/servant/:id', (req, res, next) => {
     utils.handleQuery(query, res, next);
 });
 
-router.get('/servant/cost/:servant_id', (req, res, next) => {
+router.get('/cost/:servant_id', (req, res, next) => {
     const servantQuery = `
         SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
         FROM servant INNER JOIN servant_class ON servant.class_id = servant_class.id
@@ -71,7 +71,7 @@ router.get('/servant/cost/:servant_id', (req, res, next) => {
     });
 });
 
-router.get('/servant/all/basic', (req, res, next) => {
+router.get('/all/basic', (req, res, next) => {
     const query = `
         SELECT id, name
         FROM servant
@@ -80,7 +80,7 @@ router.get('/servant/all/basic', (req, res, next) => {
     utils.handleQuery(query, res, next);
 });
 
-router.get('/servant', (req, res, next) => {
+router.get('/', (req, res, next) => {
     const query = `
         SELECT servant.id, servant.name, servant_class.name AS class, servant.stars
         FROM servant INNER JOIN servant_class ON servant.class_id = servant_class.id
@@ -93,13 +93,13 @@ router.get('/servant', (req, res, next) => {
  * POST routes
  */
 
- router.post('/servant/new', (req, res, next) => {
+ router.post('/new', (req, res, next) => {
     const { name, classID, stars, id } = req.body;
     const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
     utils.handleDBTransaction(res, queryText, utils.simpleDBTransactionResponseHandler);
  });
 
-router.post('/servant/cost', (req, res, next) => {
+router.post('/cost', (req, res, next) => {
     const { servant, costs } = req.body;
 
     const queryText = `INSERT INTO ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
