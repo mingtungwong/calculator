@@ -1,21 +1,38 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Navbar, Nav, NavItem, PageHeader } from 'react-bootstrap';
-import { Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Button } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Button, HelpBlock } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import axios from 'axios';
+import config from '../../config.json';
 
-export default class NavigationBar extends React.Component {
+class NavigationBar extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            showLoginBox: false
+            showLoginBox: false,
+            showLoginError: false
         }
         this.toggleShowLogin = this.toggleShowLogin.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     toggleShowLogin() {
         this.setState({showLoginBox: !this.state.showLoginBox});
+    }
+
+    handleSubmit(event) {
+        const email = event.target.loginEmail.value;
+        const password = event.target.loginPassword.value;
+        axios.post(`${config.server}/api/authentication/login`, { email, password })
+        .then(res => res.data)
+        .then(token => {
+            //Do something with setting the token in redux store then push to different route
+            console.log(token);
+            this.props.history.push('/servants');
+        })
+        .catch(error => this.setState({ showLoginError: true })); 
     }
 
     render() {
@@ -42,14 +59,23 @@ export default class NavigationBar extends React.Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <div id="login-box" style={{display: this.state.showLoginBox ? "block" : "none"}}>
-                    <Form horizontal style={{paddingTop: "10px"}}>
-                        <FormGroup controlId="formHorizontalEmail">
+                    <Form horizontal style={{paddingTop: "10px"}} onSubmit={this.handleSubmit}>
+                        {
+                            this.state.showLoginError ?
+                            <FormGroup validationState="error">
+                                <HelpBlock>
+                                    Invalid email or password
+                                </HelpBlock>
+                            </FormGroup>
+                            : null
+                        }
+                        <FormGroup controlId="loginEmail">
                             <Col />
                             <Col sm={9} smOffset={2}>
-                                <FormControl type="email" placeholder="Email" />
+                                <FormControl type="text" placeholder="Email" />
                             </Col>
                         </FormGroup>
-                        <FormGroup controlId="formHorizontalPassword">
+                        <FormGroup controlId="loginPassword">
                             <Col sm={9} smOffset={2}>
                                 <FormControl type="password" placeholder="Password" />
                             </Col>
@@ -70,3 +96,5 @@ export default class NavigationBar extends React.Component {
         )
     }
 }
+
+export default withRouter(NavigationBar);

@@ -5,6 +5,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+router.post('/login', (req, res, next) => {
+    const { email, password } = req.body;
+    const query = `SELECT password, admin FROM users WHERE email = '${email}';`;
+
+    db.query(query, (error, result) => {
+        if(error) next(error);
+        if(!result.rows.length) res.sendStatus(500);
+        const hashedPassword = result.rows[0].password;
+        const admin = result.rows[0].admin;
+        const matching = bcrypt.compareSync(password, hashedPassword);
+        if(matching) {
+            const token = jwt.sign({ email, admin }, process.env.jwtSecret);
+            res.send({ token });
+        } else res.sendStatus(500);
+    })
+})
+
 /**
  * POST routes
  */

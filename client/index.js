@@ -13,7 +13,7 @@ import { Switch, Route, HashRouter } from 'react-router-dom';
 
 ReactDOM.render((
     <HashRouter>
-        <App >
+        <App>
             <Route path="/edit/add/class" component={AddClass} />
             <Route path="/edit/add/servant" component={AddServant}/>
             <Route path="/edit/add/ascensions" component={EditAscensions}/>
@@ -24,5 +24,4 @@ ReactDOM.render((
             <Route path="/" exact component={Home}/>
         </App>
     </HashRouter>
-
 ), document.getElementById('root'));
