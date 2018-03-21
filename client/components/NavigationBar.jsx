@@ -5,6 +5,7 @@ import { Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Button, Help
 import { LinkContainer } from 'react-router-bootstrap';
 import axios from 'axios';
 import config from '../../config.json';
+import { connect } from 'react-redux';
 
 class NavigationBar extends React.Component {
 
@@ -97,4 +98,11 @@ class NavigationBar extends React.Component {
     }
 }
 
-export default withRouter(NavigationBar);
+const mapStateToProps = (state) => {
+    console.log(state);
+    return {
+
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(NavigationBar));
