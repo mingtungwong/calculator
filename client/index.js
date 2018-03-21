@@ -4,7 +4,7 @@ import App from './components/App.jsx';
 import Home from './components/Home.jsx';
 import ServantList from './components/ServantList.jsx';
 import ServantProfile from './components/ServantProfile.jsx';
-import EditMenu from './components/EditMenu.jsx';
+import EditMenuPage from './components/EditMenuPage.jsx';
 import EditAscensions from './components/EditAscensions.jsx';
 import AddServant from './components/AddServant.jsx';
 import AddClass from './components/AddClass.jsx';
@@ -18,7 +18,7 @@ ReactDOM.render((
             <Route path="/edit/add/servant" component={AddServant}/>
             <Route path="/edit/add/ascensions" component={EditAscensions}/>
             <Route path="/signup" component={Signup} />
-            <Route path="/menu" component={EditMenu}/>
+            <Route path="/menu" component={EditMenuPage}/>
             <Route path="/servant/:id" exact component={ServantProfile} />
             <Route path="/servants" component={ServantList}/>
             <Route path="/" exact component={Home}/>

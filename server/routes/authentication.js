@@ -17,7 +17,7 @@ router.post('/login', (req, res, next) => {
         const matching = bcrypt.compareSync(password, hashedPassword);
         if(matching) {
             const token = jwt.sign({ email, admin }, process.env.jwtSecret);
-            res.send({ token });
+            res.send({ token, admin });
         } else res.sendStatus(500);
     })
 })
