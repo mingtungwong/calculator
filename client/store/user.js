@@ -1,6 +1,6 @@
 const SET_USER = 'SET_USER';
 
-export const setUser = (user) => ({ type: SET_USER, user});
+export const setUser = (user) => ({ type: SET_USER, user });
 
 const reducer = (state = {}, action) => {
     switch(action.type) {

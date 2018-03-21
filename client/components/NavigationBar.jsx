@@ -6,6 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import axios from 'axios';
 import config from '../../config.json';
 import { connect } from 'react-redux';
+import { setUser } from '../store/user';
+import _ from 'lodash';
 
 class NavigationBar extends React.Component {
 
@@ -29,14 +31,15 @@ class NavigationBar extends React.Component {
         axios.post(`${config.server}/api/authentication/login`, { email, password })
         .then(res => res.data)
         .then(token => {
-            //Do something with setting the token in redux store then push to different route
-            console.log(token);
+            this.props.setLoggedInUser(token);
+            this.setState({ showLoginBox: false })
             this.props.history.push('/servants');
         })
         .catch(error => this.setState({ showLoginError: true })); 
     }
 
     render() {
+        const { user } = this.props;
         return (
             <div>
                 <Navbar fluid style={{backgroundColor: "#45b5fa"}}>
@@ -54,9 +57,17 @@ class NavigationBar extends React.Component {
                                 <NavItem>Edit</NavItem>
                             </LinkContainer>
                         </Nav>
-                        <Nav pullRight onSelect={this.toggleShowLogin}>
-                            <NavItem>Login</NavItem>
-                        </Nav>
+                        {
+                            _.isEmpty(user)
+                            ?
+                                <Nav pullRight onSelect={this.toggleShowLogin}>
+                                    <NavItem>Login</NavItem>
+                                </Nav>
+                            :
+                                <Nav pullRight>
+                                    <NavItem>Account</NavItem>
+                                </Nav>
+                        }
                     </Navbar.Collapse>
                 </Navbar>
                 <div id="login-box" style={{display: this.state.showLoginBox ? "block" : "none"}}>
@@ -99,10 +110,15 @@ class NavigationBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
-
+        user: state.users
     }
 }
 
-export default withRouter(connect(mapStateToProps)(NavigationBar));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setLoggedInUser: (user) => dispatch(setUser(user)),
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavigationBar));
