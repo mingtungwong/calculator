@@ -7,9 +7,11 @@ class EditMenuPage extends React.Component {
     render() {
         const { user } = this.props;
         return (
-                !_.isEmpty(user) && user.admin
+                user.admin
                 ? <EditMenu />
-                : <div>Please Log In!</div> 
+                : _.isEmpty(user)
+                ? <div>Please log in!</div>
+                : <div>Unauthorized</div> 
         )
     }
 }
