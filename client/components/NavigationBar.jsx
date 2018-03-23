@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Navbar, Nav, NavItem, PageHeader } from 'react-bootstrap';
+import { NavDropdown, Navbar, Nav, NavItem, MenuItem, PageHeader } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Col, ControlLabel, Checkbox, Button, HelpBlock } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import axios from 'axios';
@@ -64,7 +64,9 @@ class NavigationBar extends React.Component {
                                 </Nav>
                             :
                                 <Nav pullRight>
-                                    <NavItem>Account</NavItem>
+                                    <NavDropdown title="Account" id="account-drop-down">
+                                        <MenuItem onClick={() => this.props.setLoggedInUser({})}>Logout</MenuItem>
+                                    </NavDropdown>
                                 </Nav>
                         }
                     </Navbar.Collapse>
