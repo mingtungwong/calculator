@@ -37,10 +37,6 @@ table {
     text-align: left;
 }
 
-#edit-menu-options a {
-    display: block;
-}
-
 #login-box {
     position: absolute;
     right: 0;

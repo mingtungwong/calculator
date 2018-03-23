@@ -6,9 +6,9 @@ export const EditMenu = () => (
         <h2>Edit Menu</h2>
         <p>Choose a category to add or edit.</p>
         <div id="edit-menu-options">
-            <Link to="/edit/add/class">Add Class</Link>
-            <Link to="/edit/add/servant">Add Servant</Link>
-            <Link to="/edit/add/ascensions">Add Ascensions</Link>
+            <div><Link to="/edit/add/class">Add Class</Link></div>
+            <div><Link to="/edit/add/servant">Add Servant</Link></div>
+            <div><Link to="/edit/add/ascensions">Add Ascensions</Link></div>
         </div>
     </div>
 )
