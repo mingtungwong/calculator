@@ -32,8 +32,7 @@ class NavigationBar extends React.Component {
         .then(res => res.data)
         .then(token => {
             this.props.setLoggedInUser(token);
-            this.setState({ showLoginBox: false })
-            this.props.history.push('/servants');
+            this.setState({ showLoginBox: false });
         })
         .catch(error => this.setState({ showLoginError: true })); 
     }
