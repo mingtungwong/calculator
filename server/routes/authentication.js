@@ -12,13 +12,15 @@ router.post('/login', (req, res, next) => {
     db.query(query, (error, result) => {
         if(error) next(error);
         if(!result.rows.length) res.sendStatus(500);
-        const hashedPassword = result.rows[0].password;
-        const admin = result.rows[0].admin;
-        const matching = bcrypt.compareSync(password, hashedPassword);
-        if(matching) {
-            const token = jwt.sign({ email, admin }, process.env.jwtSecret);
-            res.send({ token, admin });
-        } else res.sendStatus(500);
+        else {
+            const hashedPassword = result.rows[0].password;
+            const admin = result.rows[0].admin;
+            const matching = bcrypt.compareSync(password, hashedPassword);
+            if(matching) {
+                const token = jwt.sign({ email, admin }, process.env.jwtSecret);
+                res.send({ token, admin });
+            } else res.sendStatus(500);
+        }
     })
 })
 
