@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import config from '../../config.json';
 
-export default class AddClass extends React.Component {
+class AddClass extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -13,22 +14,31 @@ export default class AddClass extends React.Component {
     }
 
     onChange(event) {
-        this.setState({className: event.target.value});
+        this.setState({ className: event.target.value });
     }
 
     onSubmit() {
         axios.post(`${config.server}/api/data/add/class`, this.state)
-        .then(() => this.props.history.push(`/servants`));
+            .then(() => this.props.history.push(`/servants`));
     }
 
     render() {
+        console.log(this.props.user);
         return (
             <div>
                 <h2>Add Class</h2>
                 <label htmlFor="add_class_input">Class:</label>
-                <input type="text" id="add_class_input" onChange={this.onChange}/>
+                <input type="text" id="add_class_input" onChange={this.onChange} />
                 <button onClick={this.onSubmit}>Submit</button>
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.users
+    }
+}
+
+export default connect(mapStateToProps)(AddClass);
