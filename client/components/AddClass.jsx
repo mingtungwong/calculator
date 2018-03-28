@@ -18,8 +18,9 @@ class AddClass extends React.Component {
     }
 
     onSubmit() {
-        axios.post(`${config.server}/api/data/add/class`, this.state)
-            .then(() => this.props.history.push(`/servants`));
+        axios.post(`${config.server}/api/data/add/class`, this.state, {headers: {Authorization: `${this.props.user.token}`}})
+            .then(() => this.props.history.push(`/servants`))
+            .catch(() => console.log('Unauthorized'));
     }
 
     render() {
