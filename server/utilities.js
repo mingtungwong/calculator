@@ -1,4 +1,5 @@
 const db = require('../db');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     handleResponse: (res, next, error, result) => {
@@ -35,5 +36,18 @@ module.exports = {
         if(error) res.sendStatus(500);
         else if(rows) res.json(rows);
         else res.sendStatus(200);
+    },
+    isAuthorized: (req) => {
+        if(!req.headers.authorization) return false;
+        else {
+            try {
+                const token = req.headers.authorization;
+                const obj = jwt.verify(token, process.env.jwtSecret);
+                return obj.admin;
+            }
+            catch(error) {
+                return false;
+            }
+        }
     }
 }

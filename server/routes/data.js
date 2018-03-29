@@ -18,20 +18,10 @@ router.get('/classes', (req, res, next) => {
 
  router.post('/add/class', (req, res, next) => {
     const { className } = req.body;
-    if(!req.headers.authorization) res.sendStatus(500);
-    else {
-        try {
-            const token = req.headers.authorization;
-            const obj = jwt.verify(token, process.env.jwtSecret);
-            if(obj.admin) {
-                const query = `INSERT INTO servant_class (name) VALUES ('${className}');`;
-                utils.handleDBTransaction(res, query, utils.simpleDBTransactionResponseHandler);
-            } else res.sendStatus(500);
-        }
-        catch(error) {
-            res.sendStatus(500);
-        }
-    }
+    if(utils.isAuthorized(req)) {
+        const query = `INSERT INTO servant_class (name) VALUES ('${className}');`;
+        utils.handleDBTransaction(res, query, utils.simpleDBTransactionResponseHandler);
+    } else res.sendStatus(401);
  });
 
 module.exports = router;
