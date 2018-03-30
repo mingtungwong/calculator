@@ -94,18 +94,22 @@ router.get('/', (req, res, next) => {
  */
 
  router.post('/new', (req, res, next) => {
-    const { name, classID, stars, id } = req.body;
-    const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
-    utils.handleDBTransaction(res, queryText, utils.simpleDBTransactionResponseHandler);
+    if(utils.isAuthorized(req)) {
+        const { name, classID, stars, id } = req.body;
+        const queryText = `INSERT INTO servant (id, name, class_id, stars) VALUES (${+id}, '${name}', ${+classID}, ${+stars})`;
+        utils.handleDBTransaction(res, queryText, utils.simpleDBTransactionResponseHandler);
+    } else res.sendStatus(401);
  });
 
 router.post('/cost', (req, res, next) => {
-    const { servant, costs } = req.body;
-
-    const queryText = `INSERT INTO ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
-    const values = costs.map(cost => `(${servant}, ${cost.ascLvl}, ${cost.itemId}, ${cost.quantity})`);
-    const fullQuery = queryText + values.join(',');
-    utils.handleDBTransaction(res, fullQuery, utils.simpleDBTransactionResponseHandler);
+    if(utils.isAuthorized(req)) {
+        const { servant, costs } = req.body;
+    
+        const queryText = `INSERT INTO ascension_costs (servant_id, ascension_level, item_id, quantity) VALUES `
+        const values = costs.map(cost => `(${servant}, ${cost.ascLvl}, ${cost.itemId}, ${cost.quantity})`);
+        const fullQuery = queryText + values.join(',');
+        utils.handleDBTransaction(res, fullQuery, utils.simpleDBTransactionResponseHandler);
+    } else res.sendStatus(401);
 });
 
 module.exports = router;
