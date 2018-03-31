@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const db = require('../../db');
 
+/**
+ * GET Routes
+ */
+
 router.get('/', (req, res, next) => {
     const query = `
         SELECT id, name
@@ -15,8 +19,12 @@ router.get('/', (req, res, next) => {
     });
 })
 
+/**
+ * POST Routes
+ */
+
 router.post('/add', (req, res, next) => {
-    
+
 })
 
 module.exports = router;
